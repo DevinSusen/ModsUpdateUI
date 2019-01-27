@@ -1,0 +1,47 @@
+﻿<Window x:Class="ModsUpdateUI.View.DownloadConfigUI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModsUpdateUI.View"
+        mc:Ignorable="d"
+        Title="下载配置" Height="450" Width="800">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10 10 0 0" Text="所有者(默认)"/>
+            <TextBox Name="OwnerText" Margin="10 10 0 0" MinWidth="200"/>
+            <TextBlock Margin="10 10 0 0" Foreground="Crimson" Text="注:在下载页面若未设置所有者，则默认使用该项。否则，前一页面设置生效"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10 10 0 0" Text="代码库(默认)"/>
+            <TextBox Name="ReposText" Margin="10 10 0 0" MinWidth="200"/>
+            <TextBlock Margin="10 10 0 0" Foreground="Crimson" Text="注:在下载页面若未设置代码库，则默认使用该项。否则，前一页面设置生效"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10 10 0 0" Text="显示文件类型"/>
+            <ComboBox Name="FileTypeSelect" IsEditable="False" MinWidth="200" Margin="10 10 0 0" SelectedIndex="0">
+                <ComboBoxItem Content="all"/>
+                <ComboBoxItem Content="application/json"/>
+                <ComboBoxItem Content="application/zip"/>
+            </ComboBox>
+            <TextBlock Margin="10 10 0 0" Foreground="Crimson" Text="注:若设置该项，则在下载页面只会显示该项所指示的文件类型"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10 10 0 0" Text="下载目录"/>
+            <TextBox Margin="10 10 0 0" MinWidth="200" Name="FolderSelect" MouseDoubleClick="FolderSelect_MouseDoubleClick"/>
+            <TextBlock Margin="10 10 0 0" Foreground="Crimson">注:文件将下载到该目录下 (( 双击有奇效&lt;-_-&gt; ))</TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10 10 0 0" Text="是否自动解压"/>
+            <RadioButton Name="DecompressChecked" Margin="10 10 0 0" Content="是" GroupName="AutoDecompress"/>
+            <RadioButton Margin="10 10 0 0" Name="NotDecompress" Content="否" IsChecked="True" GroupName="AutoDecompress"/>
+            <TextBlock Margin="10 10 0 0" Foreground="Crimson" Text="注:若设置该项，则文件将在下载之后自动解压，只支持ZIP格式，同时原压缩文件将被删除"/>
+        </StackPanel>
+
+        <Button Margin="10 10 0 0" Content="应用并保存默认配置" HorizontalAlignment="Left" Click="Button_Click"/>
+    </StackPanel>
+</Window>
