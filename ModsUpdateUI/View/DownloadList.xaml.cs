@@ -2,8 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Linq;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 namespace ModsUpdateUI.View
@@ -72,9 +70,15 @@ namespace ModsUpdateUI.View
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             if (ModItemsListView.SelectedItems.Count == 0)
+            {
                 MessageBox.Show("请选择要下载的项目（一项或多项）");
+                return;
+            }
             if (!Directory.Exists(Config.DownloadConfig.DownloadDir))
+            {
                 MessageBox.Show("请前往默认设置，设置下载目录");
+                return;
+            }
 
             ConcurrentBag<ReleaseItem> items = new ConcurrentBag<ReleaseItem>();
             foreach (var i in ModItemsListView.SelectedItems)

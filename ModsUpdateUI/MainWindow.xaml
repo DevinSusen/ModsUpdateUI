@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ModsUpdateUI"
         mc:Ignorable="d"
-        Title="Mod下载" Height="450" Width="800">
+        Title="Mod" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -21,7 +21,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Name="ToDownload" Grid.Row="1" Content="查看下载列表" Background="Bisque" Click="ToDownload_Click"/>
+            <Button Name="ToDownload" Grid.Row="1" Content="查看Mod列表" Background="Bisque" Click="ToDownload_Click"/>
         </Grid>
         
         <Grid Grid.Column="2">
@@ -31,7 +31,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button Name="ToCheckUpdate" Grid.Row="1" Content="检查更新" Background="CadetBlue" Click="ToCheckUpdate_Click"/>
+            <Button Name="ToCheckUpdate" Grid.Row="1" Content="更新Mod" Background="CadetBlue" Click="ToCheckUpdate_Click"/>
         </Grid>
     </Grid>
 </Window>
