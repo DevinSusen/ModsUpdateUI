@@ -35,11 +35,11 @@ namespace ModsUpdateUI.View
         private void CheckUpdateButton_Click(object sender, RoutedEventArgs e)
         {
             string path = ModsTextBox.Text.Trim();
-            if (string.IsNullOrWhiteSpace(path))
+            if (!Directory.Exists(path))
                 path = Config.UpdateConfig.ModsDir;
             string repos = GetRepos();
             string owner = GetOwnerName();
-            if (string.IsNullOrWhiteSpace(repos) || string.IsNullOrWhiteSpace(owner) || string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(repos) || string.IsNullOrWhiteSpace(owner) || !Directory.Exists(path))
             {
                 System.Windows.MessageBox.Show("请检查您的输入");
                 return;

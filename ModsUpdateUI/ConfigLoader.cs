@@ -50,5 +50,18 @@ namespace ModsUpdateUI
             System.IO.File.WriteAllText("checkUpdate.json", s);
         }
         #endregion
+
+        #region Software
+        public static double LoadVersion()
+        {
+            if (!System.IO.File.Exists("Version.txt"))
+            {
+                System.IO.File.WriteAllText("Version.txt", "1.0");
+                return 1.0;
+            }
+            string s = System.IO.File.ReadAllText("Version.txt");
+            return double.Parse(s);
+        }
+        #endregion
     }
 }

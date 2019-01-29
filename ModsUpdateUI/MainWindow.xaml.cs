@@ -1,18 +1,6 @@
 ﻿using ModsUpdateUI.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ModsUpdateUI
 {
@@ -24,7 +12,25 @@ namespace ModsUpdateUI
         public MainWindow()
         {
             InitializeComponent();
+            MWindow.Title = "Mod更新辅助工具 \t----\t版本：" + ConfigLoader.LoadVersion();
             LoadConfig();
+            CheckUpdate();
+        }
+
+        private async void CheckUpdate()
+        {
+            SoftwareUpdate su = new SoftwareUpdate
+            {
+                OwnerName = "DevinSusen",
+                Repository = "ModsUpdateUI"
+            };
+            bool canUpdate = await Task.Run(su.CanUpdate);
+            if (canUpdate)
+            {
+                var res = MessageBox.Show("软件可更新，是否打开浏览器去下载？", "软件更新", MessageBoxButton.YesNo);
+                if (res == MessageBoxResult.Yes)
+                    System.Diagnostics.Process.Start("https://github.com/DevinSusen/ModsUpdateUI/releases");
+            }
         }
 
         private void ToDownload_Click(object sender, RoutedEventArgs e)

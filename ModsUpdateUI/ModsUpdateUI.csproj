@@ -67,6 +67,7 @@
     <Compile Include="GitHubConnect.cs" />
     <Compile Include="ModsRelease.cs" />
     <Compile Include="ReleaseItem.cs" />
+    <Compile Include="SoftwareUpdate.cs" />
     <Compile Include="UpdateItem.cs" />
     <Compile Include="View\DownloadConfigUI.xaml.cs">
       <DependentUpon>DownloadConfigUI.xaml</DependentUpon>
