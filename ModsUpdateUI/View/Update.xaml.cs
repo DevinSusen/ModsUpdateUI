@@ -124,7 +124,7 @@ namespace ModsUpdateUI.View
                     items.Add(it);
             }
 
-            await Task.Run(() => Parallel.ForEach(items, new ParallelOptions { MaxDegreeOfParallelism = 4 }, UpdateMods));
+            await Task.Run(() => Parallel.ForEach(items, new ParallelOptions { MaxDegreeOfParallelism = 4 }, UpdateMod));
             System.Windows.MessageBox.Show("更新完成");
         }
 
@@ -138,7 +138,7 @@ namespace ModsUpdateUI.View
             }
         }
 
-        private void UpdateMods(UpdateItem item)
+        private void UpdateMod(UpdateItem item)
         {
             try
             {
