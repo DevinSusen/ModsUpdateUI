@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModsUpdateUI", "ModsUpdateUI\ModsUpdateUI.csproj", "{C88DAA64-E49A-4007-8C09-935FAA5DA669}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModsUpdateUI", "ModsUpdateUI\ModsUpdateUI.csproj", "{F14E4732-17E8-4E65-BD5E-D210A298E771}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUpdate", "AppUpdate\AppUpdate.csproj", "{549DF3AB-AE6D-46F0-BA51-A1D6917ED330}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C88DAA64-E49A-4007-8C09-935FAA5DA669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C88DAA64-E49A-4007-8C09-935FAA5DA669}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C88DAA64-E49A-4007-8C09-935FAA5DA669}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C88DAA64-E49A-4007-8C09-935FAA5DA669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14E4732-17E8-4E65-BD5E-D210A298E771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14E4732-17E8-4E65-BD5E-D210A298E771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14E4732-17E8-4E65-BD5E-D210A298E771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14E4732-17E8-4E65-BD5E-D210A298E771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549DF3AB-AE6D-46F0-BA51-A1D6917ED330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549DF3AB-AE6D-46F0-BA51-A1D6917ED330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549DF3AB-AE6D-46F0-BA51-A1D6917ED330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549DF3AB-AE6D-46F0-BA51-A1D6917ED330}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {127E61F2-F578-4C5A-949A-7CFE75F1D11E}
+		SolutionGuid = {B9E08F78-BAC9-485D-9CC6-F5FE20A67DE6}
 	EndGlobalSection
 EndGlobal

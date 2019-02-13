@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C88DAA64-E49A-4007-8C09-935FAA5DA669}</ProjectGuid>
+    <ProjectGuid>{F14E4732-17E8-4E65-BD5E-D210A298E771}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ModsUpdateUI</RootNamespace>
     <AssemblyName>ModsUpdateUI</AssemblyName>
@@ -35,6 +35,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -43,8 +55,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,23 +77,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Config.cs" />
-    <Compile Include="GitHubConnect.cs" />
-    <Compile Include="ModsRelease.cs" />
-    <Compile Include="ReleaseItem.cs" />
-    <Compile Include="SoftwareUpdate.cs" />
-    <Compile Include="UpdateItem.cs" />
-    <Compile Include="View\DownloadConfigUI.xaml.cs">
-      <DependentUpon>DownloadConfigUI.xaml</DependentUpon>
+    <Compile Include="Configurations\ConfigurationManager.cs" />
+    <Compile Include="Configurations\DownloadModsConfig.cs" />
+    <Compile Include="Configurations\SoftwareInfo.cs" />
+    <Compile Include="Configurations\UpdateModsConfig.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Converters\ArrayToStringConverter.cs" />
+    <Compile Include="Interfaces\ICheckUpdate.cs" />
+    <Compile Include="Interfaces\IModUpdate.cs" />
+    <Compile Include="Services\GithubService.cs" />
+    <Compile Include="Services\LocalService.cs" />
+    <Compile Include="Services\ServiceManager.cs" />
+    <Compile Include="Utils\Utilities.cs" />
+    <Compile Include="ViewModels\ModsDownloadViewModel.cs" />
+    <Compile Include="ViewModels\ModsUpdateViewModel.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DownloadList.xaml.cs">
-      <DependentUpon>DownloadList.xaml</DependentUpon>
+    <Compile Include="Views\ModsDownloadConfigView.xaml.cs">
+      <DependentUpon>ModsDownloadConfigView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Update.xaml.cs">
-      <DependentUpon>Update.xaml</DependentUpon>
+    <Compile Include="Views\ModsDownloadView.xaml.cs">
+      <DependentUpon>ModsDownloadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UpdateConfig.xaml.cs">
-      <DependentUpon>UpdateConfig.xaml</DependentUpon>
+    <Compile Include="Views\ModsUpdateView.xaml.cs">
+      <DependentUpon>ModsUpdateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModsUpdateConfigView.xaml.cs">
+      <DependentUpon>ModsUpdateConfigView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -89,31 +114,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CheckUpdateConfig.cs" />
-    <Compile Include="ConfigLoader.cs" />
-    <Compile Include="DownloadConfig.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\DownloadConfigUI.xaml">
+    <Page Include="Views\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DownloadList.xaml">
+    <Page Include="Views\ModsDownloadConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Update.xaml">
+    <Page Include="Views\ModsDownloadView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UpdateConfig.xaml">
+    <Page Include="Views\ModsUpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ModsUpdateConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\LocalModInfo.cs" />
+    <Compile Include="Models\RemoteModInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -140,5 +168,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

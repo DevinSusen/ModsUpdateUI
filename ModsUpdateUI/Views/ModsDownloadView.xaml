@@ -1,0 +1,143 @@
+﻿<controls:MetroWindow x:Class="ModsUpdateUI.Views.ModsDownloadView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      TitleCaps="False"
+                      Title="查看及下载"
+                      Height="600"
+                      Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="10 10 0 0">
+            <Button Content="显示全部" x:Name="AllModsButton" 
+                    Click="AllModsButton_Click"
+                    ToolTip="显示全部"/>
+            <Button Content="未下载项" Margin="10 0 0 0" 
+                    x:Name="UndownloadItemButton"
+                    ToolTip="仅显示未下载的项目"
+                    Click="UndownloadItemButton_Click"/>
+            <Button Content="已下载项" Margin="10 0 0 0" 
+                    x:Name="DownloadedItemButton"
+                    ToolTip="仅显示已下载的项目"
+                    Click="DownloadedItemButton_Click"/>
+            <ComboBox Margin="10 0 0 0"
+                    materialDesign:HintAssist.Hint="Loading"
+                    ItemsSource="{Binding FileTypes}"
+                      ToolTip="根据所选择的文件类型显示"
+                    SelectedValue="{Binding FileTypeFilter, Mode=TwoWay}"
+                    SelectedItem="{Binding FileTypeFilter, Mode=TwoWay}">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+            <Grid Margin="0 0 10 0" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar IsIndeterminate="True" Grid.Column="0"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    x:Name="DataLoadedProgressBar"/>
+                <TextBlock Grid.Column="1" Margin="10 0 10 0" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=DataLoadedProgressBar, Path=IsIndeterminate}" Value="True">
+                                    <Setter Property="Text" Value="Loading"/>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=DataLoadedProgressBar, Path=IsIndeterminate}" Value="False">
+                                    <Setter Property="Text" Value="Loaded"/>
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            
+        </DockPanel>
+
+        <ListView Margin="0 8 0 0" Grid.Row="1"
+                  ItemsSource="{Binding ModItems}"
+                  SelectionMode="Multiple"
+                  Name="DataListView"
+                  materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsChecked, Mode=TwoWay}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility, Mode=OneWay}" Value="True">
+                            <Setter Value="Visible" Property="Visibility"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Visibility, Mode=OneWay}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="名称"
+                        DisplayMemberBinding="{Binding ModInfo.Name}"/>
+                    <GridViewColumn
+                        Header="文件类型"
+                        DisplayMemberBinding="{Binding ModInfo.ContentType}"/>
+                    <GridViewColumn
+                        Header="大小(Byte)"
+                        DisplayMemberBinding="{Binding ModInfo.Size}"/>
+                    <GridViewColumn
+                        Header="版本"
+                        DisplayMemberBinding="{Binding ModInfo.Version}"/>
+                    <GridViewColumn
+                        Header="是否已下载">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="UpdatablePresenter"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsExists, Mode=OneWay}" Value="True">
+                                        <Setter TargetName="UpdatablePresenter" Property="Foreground" Value="Green"/>
+                                        <Setter TargetName="UpdatablePresenter" Property="Text" Value="已下载"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsExists, Mode=OneWay}" Value="False">
+                                        <Setter TargetName="UpdatablePresenter" Property="Foreground" Value="Red"/>
+                                        <Setter TargetName="UpdatablePresenter" Property="Text" Value="未下载"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="更新时间"
+                        DisplayMemberBinding="{Binding ModInfo.Updated}"/>
+                    <GridViewColumn
+                        Header="下载地址"
+                        DisplayMemberBinding="{Binding ModInfo.BrowserDownloadUrl}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="下载" Margin="20 8 0 10" HorizontalAlignment="Left" 
+                Grid.Row="2" x:Name="DownloadButton" ToolTip="下载选择项目"/>
+    </Grid>
+</controls:MetroWindow>

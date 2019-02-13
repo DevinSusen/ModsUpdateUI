@@ -1,56 +1,66 @@
-﻿using ModsUpdateUI.View;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using MahApps.Metro.Controls;
+using ModsUpdateUI.Configurations;
+using ModsUpdateUI.Views;
 
 namespace ModsUpdateUI
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
             InitializeComponent();
-            MWindow.Title = "Mod更新辅助工具 \t----\t版本：" + ConfigLoader.LoadVersion();
-            LoadConfig();
-            CheckUpdate();
         }
 
-        private async void CheckUpdate()
+        private void CheckUpdateButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            SoftwareUpdate su = new SoftwareUpdate
-            {
-                OwnerName = "DevinSusen",
-                Repository = "ModsUpdateUI"
-            };
-            bool canUpdate = await Task.Run(su.CanUpdate);
-            if (canUpdate)
-            {
-                var res = MessageBox.Show("软件可更新，是否打开浏览器去下载？", "软件更新", MessageBoxButton.YesNo);
-                if (res == MessageBoxResult.Yes)
-                    System.Diagnostics.Process.Start("https://github.com/DevinSusen/ModsUpdateUI/releases");
-            }
+
         }
 
-        private void ToDownload_Click(object sender, RoutedEventArgs e)
+        private void WikiButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            DownloadList newWindow = new DownloadList();
-            newWindow.Show();
-            Close();
+
         }
 
-        private void ToCheckUpdate_Click(object sender, RoutedEventArgs e)
+        private void AboutButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Update newWindow = new Update();
-            newWindow.Show();
-            Close();
+            AboutView view = new AboutView();
+            view.Show();
         }
 
-        private void LoadConfig()
+        private void ModsDownloadConfigButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Config.UpdateConfig = ConfigLoader.LoadCheckUpdateConfig();
-            Config.DownloadConfig = ConfigLoader.LoadDownloadConfig();
+            ModsDownloadConfigView view = new ModsDownloadConfigView();
+            view.Show();
+        }
+
+        private void ModsUpdateConfigButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ModsUpdateConfigView view = new ModsUpdateConfigView();
+            view.Show();
+        }
+
+        private void StoreFilesConfigButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void DownloadModsButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!ConfigurationManager.DownloadModsConfiguration.IsOK)
+                return;
+            ModsDownloadView view = new ModsDownloadView();
+            view.Show();
+        }
+
+        private void UpdateModsButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!ConfigurationManager.UpdateModsConfiguration.IsOK)
+                return;
+            ModsUpdateView view = new ModsUpdateView();
+            view.Show();
         }
     }
 }

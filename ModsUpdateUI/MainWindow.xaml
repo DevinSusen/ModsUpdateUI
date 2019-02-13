@@ -1,38 +1,121 @@
-﻿<Window x:Class="ModsUpdateUI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ModsUpdateUI"
-        mc:Ignorable="d"
-        Name="MWindow"
-        Height="450" Width="800">
+﻿<controls:MetroWindow x:Class="ModsUpdateUI.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      Title="Mods Tools"
+                      Height="600"
+                      Width="800"
+                      TitleCaps="False"
+                      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                      TextElement.FontWeight="Regular"
+                      TextElement.FontSize="13"
+                      TextOptions.TextFormattingMode="Ideal" 
+                      TextOptions.TextRenderingMode="Auto"        
+                      Background="{DynamicResource MaterialDesignPaper}"
+                      FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands ShowLastSeparator="False">
+            <Button Content="检查更新"
+                    ToolTip="检查更新"
+                    Name="CheckUpdateButton"
+                    Click="CheckUpdateButton_Click"/>
+            <Button Content="Wiki"
+                    ToolTip="使用指南,点击跳转到Wiki页面"
+                    Name="WikiButton"
+                    Click="WikiButton_Click"/>
+            <Button Content="关于"
+                    ToolTip="关于"
+                    Name="AboutButton"
+                    Click="AboutButton_Click"/>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Button Name="ToDownload" Grid.Row="1" Content="查看Mod列表" Background="Bisque" Click="ToDownload_Click"/>
-        </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         
-        <Grid Grid.Column="2">
+        <Grid Grid.Row="0">
+            <materialDesign:Card 
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" 
+                Background="{DynamicResource PrimaryHueMidBrush}" 
+                Padding="32" Margin="16">
+                <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" 
+                           Text="游戏辅助工具"/>
+            </materialDesign:Card>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Button Name="ToCheckUpdate" Grid.Row="1" Content="更新Mod" Background="CadetBlue" Click="ToCheckUpdate_Click"/>
+            <TextBlock Grid.Column="1" Grid.Row="0"
+                       Grid.RowSpan="3">
+            </TextBlock>
+
+            <StackPanel Margin="20" Grid.Column="0" Grid.Row="0"
+                        Orientation="Horizontal">
+                <Button Content="查看及下载Mods"
+                        Name="DownloadModsButton"
+                        Click="DownloadModsButton_Click"/>
+                <Button Margin="10 0 0 0"
+                        Name="ModsDownloadConfigButton"
+                        Click="ModsDownloadConfigButton_Click"
+                        Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                        HorizontalAlignment="Left"
+                        ToolTip="MaterialDesignFloatingActionMiniButton">
+                    <materialDesign:PackIcon
+                        Kind="SettingsOutline"
+                        Height="24"
+                        Width="24" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Margin="20" Grid.Row="1" Grid.Column="0"
+                        Orientation="Horizontal">
+                <Button Content="更新Mods"
+                        Name="UpdateModsButton"
+                        Click="UpdateModsButton_Click"/>
+                <Button Margin="10 0 0 0"
+                        Name="ModsUpdateConfigButton"
+                        Click="ModsUpdateConfigButton_Click"
+                        Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                        HorizontalAlignment="Left"
+                        ToolTip="MaterialDesignFloatingActionMiniButton">
+                    <materialDesign:PackIcon
+                        Kind="SettingsOutline"
+                        Height="24"
+                        Width="24" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Margin="20" Grid.Row="2" Grid.Column="0"
+                        Orientation="Horizontal">
+                <Button Content="打包存档"/>
+                <Button Margin="10 0 0 0"
+                        Name="StoreFilesConfigButton"
+                        Click="StoreFilesConfigButton_Click"
+                        Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                        HorizontalAlignment="Left"
+                        ToolTip="MaterialDesignFloatingActionMiniButton">
+                    <materialDesign:PackIcon
+                        Kind="SettingsOutline"
+                        Height="24"
+                        Width="24" />
+                </Button>
+            </StackPanel>
         </Grid>
     </Grid>
-</Window>
+    
+</controls:MetroWindow>

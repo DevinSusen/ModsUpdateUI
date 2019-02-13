@@ -1,0 +1,115 @@
+﻿<controls:MetroWindow x:Class="ModsUpdateUI.Views.ModsUpdateView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      TitleCaps="False"
+                      xmlns:converters="clr-namespace:ModsUpdateUI.Converters"
+                      Title="更新"
+                      Height="600"
+                      Width="800">
+    <Grid>
+        <Grid.Resources>
+            <converters:ArrayToStringConverter x:Key="ArrayToStringConverter"/>
+        </Grid.Resources>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="10 10 0 0">
+            <Button Content="显示全部" x:Name="AllModsButton" Click="AllModsButton_Click"/>
+            <Button Content="显示可更新项" Margin="10 0 0 0" x:Name="UpdatableModsButton" Click="UpdatableModsButton_Click"/>
+        </StackPanel>
+
+        <ListView Margin="0 8 0 0" Grid.Row="1"
+                  ItemsSource="{Binding ModItems}"
+                  SelectionMode="Multiple"
+                  materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource MaterialDesignGridViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsChecked, Mode=TwoWay}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility, Mode=OneWay}" Value="True">
+                            <Setter Value="Visible" Property="Visibility"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Visibility, Mode=OneWay}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding ModInfo.Id}"
+                        Header="Id"/>
+                    <GridViewColumn
+                        Header="名称"
+                        DisplayMemberBinding="{Binding ModInfo.DisplayName}"/>
+                    <GridViewColumn
+                        Header="作者"
+                        DisplayMemberBinding="{Binding ModInfo.Author}"/>
+                    <GridViewColumn
+                        Header="版本"
+                        DisplayMemberBinding="{Binding ModInfo.Version}"/>
+                    <GridViewColumn
+                        Header="是否可更新">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="UpdatablePresenter"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding CanUpdate, Mode=OneWay}" Value="True">
+                                        <Setter TargetName="UpdatablePresenter" Property="Foreground" Value="Green"/>
+                                        <Setter TargetName="UpdatablePresenter" Property="Text" Value="有更新"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CanUpdate, Mode=OneWay}" Value="False">
+                                        <Setter TargetName="UpdatablePresenter" Property="Foreground" Value="Red"/>
+                                        <Setter TargetName="UpdatablePresenter" Property="Text" Value="无更新"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="程序集"
+                        DisplayMemberBinding="{Binding ModInfo.AssemblyName}"/>
+                    <GridViewColumn
+                        Header="入口方法"
+                        DisplayMemberBinding="{Binding ModInfo.EntryMethod}"/>
+                    <GridViewColumn
+                        Header="前置需求Mod"
+                        DisplayMemberBinding="{Binding Path=ModInfo.Requirements, Converter={StaticResource ArrayToStringConverter}}"/>
+                    <GridViewColumn
+                        Header="主页"
+                        DisplayMemberBinding="{Binding ModInfo.HomePage}"/>
+                    <GridViewColumn
+                        Header="仓库"
+                        DisplayMemberBinding="{Binding ModInfo.Repository}"/>
+                    <GridViewColumn
+                        Header="描述"
+                        DisplayMemberBinding="{Binding ModInfo.Description}"/>
+                    <GridViewColumn
+                        Header="管理器版本"
+                        DisplayMemberBinding="{Binding ModInfo.ManagerVersion}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="更新" Margin="20 8 0 10" HorizontalAlignment="Left" 
+                Grid.Row="2" x:Name="UpdateButton" Click="UpdateButton_Click"/>
+    </Grid>
+</controls:MetroWindow>
