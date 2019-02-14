@@ -23,7 +23,7 @@ namespace ModsUpdateUI.Services
         {
             var result = await _client.Repository.Release.GetLatest(Owner, Repos);
             List<RemoteModInfo> mods = new List<RemoteModInfo>();
-            foreach(var i in result.Assets)
+            foreach (var i in result.Assets)
             {
                 RemoteModInfo info = new RemoteModInfo
                 {
