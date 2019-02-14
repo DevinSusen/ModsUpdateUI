@@ -9,6 +9,7 @@ using System.IO;
 using System;
 using ModsUpdateUI.Configurations;
 using MaterialDesignThemes.Wpf;
+using System.IO.Compression;
 
 namespace ModsUpdateUI.ViewModels
 {
@@ -122,6 +123,11 @@ namespace ModsUpdateUI.ViewModels
 
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
+            if (DownloadItems[0].ModInfo.ContentType == Constants.ZipType)
+            {
+                string path = ConfigurationManager.DownloadModsConfiguration.DownloadDirectory + Path.DirectorySeparatorChar + DownloadItems[0].ModInfo.Name;
+                DecompressFile(path, ConfigurationManager.DownloadModsConfiguration.IsDeleteFileWhenDecompress);
+            }
             DownloadItems.RemoveAt(0);
             DownloadedCount += 1;
             LeavingCount -= 1;
@@ -135,6 +141,13 @@ namespace ModsUpdateUI.ViewModels
                 Message = "下载完毕";
                 Client.DownloadFileCompleted -= Client_DownloadFileCompleted;
             }
+        }
+
+        private void DecompressFile(string filePath, bool canDelete)
+        {
+            ZipFile.ExtractToDirectory(filePath, ConfigurationManager.DownloadModsConfiguration.DownloadDirectory);
+            if (canDelete)
+                File.Delete(filePath);
         }
 
         #endregion

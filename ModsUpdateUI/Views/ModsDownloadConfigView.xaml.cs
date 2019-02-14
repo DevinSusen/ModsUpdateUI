@@ -60,7 +60,7 @@ namespace ModsUpdateUI.Views
             config.IsAutoDecompress = AutoDecompressTButton.IsChecked ?? false;
             config.IsDeleteFileWhenDecompress = DeleteFileTButton.IsChecked ?? true;
 
-            ErrorMessage = "保存成功";
+            ErrorMessage = "保存成功，部分设置可能需要下次启动生效";
             return true;
         }
 

@@ -17,5 +17,12 @@
 
         public const string SoftwareMataDataPath = @"MataData.json";
         #endregion
+
+        #region File Type
+
+        public const string ZipType = @"application/zip";
+        public const string JsonType = @"application/json";
+
+        #endregion
     }
 }
