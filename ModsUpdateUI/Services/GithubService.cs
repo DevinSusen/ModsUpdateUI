@@ -21,8 +21,17 @@ namespace ModsUpdateUI.Services
 
         public async Task<List<RemoteModInfo>> GetLastestModsAsync()
         {
-            var result = await _client.Repository.Release.GetLatest(Owner, Repos);
+            Release result;
             List<RemoteModInfo> mods = new List<RemoteModInfo>();
+            try
+            {
+                result = await _client.Repository.Release.GetLatest(Owner, Repos);
+            }
+            catch (System.Exception)
+            {
+                return mods;
+            }
+            
             foreach (var i in result.Assets)
             {
                 RemoteModInfo info = new RemoteModInfo

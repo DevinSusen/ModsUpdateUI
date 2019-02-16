@@ -1,7 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using ModsUpdateUI.ViewModels;
 using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace ModsUpdateUI.Views
 {

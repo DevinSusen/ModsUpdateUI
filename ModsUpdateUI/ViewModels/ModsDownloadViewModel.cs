@@ -123,10 +123,13 @@ namespace ModsUpdateUI.ViewModels
 
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            if (DownloadItems[0].ModInfo.ContentType == Constants.ZipType)
+            if (ConfigurationManager.DownloadModsConfiguration.IsAutoDecompress)
             {
-                string path = ConfigurationManager.DownloadModsConfiguration.DownloadDirectory + Path.DirectorySeparatorChar + DownloadItems[0].ModInfo.Name;
-                DecompressFile(path, ConfigurationManager.DownloadModsConfiguration.IsDeleteFileWhenDecompress);
+                if (DownloadItems[0].ModInfo.ContentType == Constants.ZipType)
+                {
+                    string path = ConfigurationManager.DownloadModsConfiguration.DownloadDirectory + Path.DirectorySeparatorChar + DownloadItems[0].ModInfo.Name;
+                    DecompressFile(path, ConfigurationManager.DownloadModsConfiguration.IsDeleteFileWhenDecompress);
+                }
             }
             DownloadItems.RemoveAt(0);
             DownloadedCount += 1;
@@ -272,15 +275,25 @@ namespace ModsUpdateUI.ViewModels
         public static ObservableCollection<DownloadModItem> FromList(List<RemoteModInfo> items)
         {
             ObservableCollection<DownloadModItem> downloadMods = new ObservableCollection<DownloadModItem>();
+            LocalService ls = new LocalService(ConfigurationManager.UpdateModsConfiguration.ModsDirectory, ConfigurationManager.UpdateModsConfiguration.InfoFile);
+            var lss = ls.FromDirectory();
             foreach(var i in items)
             {
-                downloadMods.Add(new DownloadModItem
+                DownloadModItem item = new DownloadModItem
                 {
                     ModInfo = i,
                     IsChecked = false,
-                    Visibility = true,
-                    IsExists = false
-                });
+                    Visibility = true
+                };
+                downloadMods.Add(item);
+                string fileName = Path.GetFileNameWithoutExtension(i.Name);
+                int idx = fileName.IndexOf('-');
+                if (idx == -1)
+                    continue;
+                var name = fileName.Substring(0, idx);
+                if (lss.Exists(v => v.Id == name))
+                    item.IsExists = true;
+                else item.IsExists = false;
             }
             return downloadMods;
         }

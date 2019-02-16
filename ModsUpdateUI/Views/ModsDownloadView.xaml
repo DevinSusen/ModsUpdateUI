@@ -57,11 +57,11 @@
                         <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=DataLoadedProgressBar, Path=IsIndeterminate}" Value="True">
-                                    <Setter Property="Text" Value="Loading"/>
+                                    <Setter Property="Text" Value="加载数据中..."/>
                                     <Setter Property="Foreground" Value="Red"/>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding ElementName=DataLoadedProgressBar, Path=IsIndeterminate}" Value="False">
-                                    <Setter Property="Text" Value="Loaded"/>
+                                    <Setter Property="Text" Value="Done!"/>
                                     <Setter Property="Foreground" Value="Green"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -149,8 +149,7 @@
                     Click="DownloadButton_Click"/>
             <Grid Margin="20 8 0 10">
                 <ProgressBar Minimum="0" MinWidth="300" Height="20" Maximum="{Binding DownloadItems.Count}" 
-                             Value="{Binding DownloadedCount}" x:Name="DownloadProgressBar"
-                             VerticalAlignment="Stretch">
+                             Value="{Binding DownloadedCount}" x:Name="DownloadProgressBar">
                     <ProgressBar.Style>
                         <Style BasedOn="{StaticResource MaterialDesignLinearProgressBar}" TargetType="{x:Type ProgressBar}">
                             <Setter Property="Visibility" Value="Visible"/>

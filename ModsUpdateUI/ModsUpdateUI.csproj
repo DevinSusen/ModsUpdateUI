@@ -86,8 +86,6 @@
     <Compile Include="Converters\ArrayToStringConverter.cs" />
     <Compile Include="Converters\IntToBooleanConverter.cs" />
     <Compile Include="Converters\TwoNumsToPercentage.cs" />
-    <Compile Include="Interfaces\ICheckUpdate.cs" />
-    <Compile Include="Interfaces\IModUpdate.cs" />
     <Compile Include="Services\GithubService.cs" />
     <Compile Include="Services\LocalService.cs" />
     <Compile Include="Services\ServiceManager.cs" />

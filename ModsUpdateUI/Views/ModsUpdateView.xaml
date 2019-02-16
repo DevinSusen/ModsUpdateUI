@@ -11,6 +11,8 @@
     <Grid>
         <Grid.Resources>
             <converters:ArrayToStringConverter x:Key="ArrayToStringConverter"/>
+            <converters:TwoNumsToPercentage x:Key="ToPercentage"/>
+            <converters:IntToBooleanConverter x:Key="IntToBoolean"/>
         </Grid.Resources>
         
         <Grid.RowDefinitions>
@@ -19,14 +21,40 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="10 10 0 0">
+        <DockPanel Grid.Row="0" Margin="10 10 0 0">
             <Button Content="显示全部" x:Name="AllModsButton" Click="AllModsButton_Click"/>
             <Button Content="显示可更新项" Margin="10 0 0 0" x:Name="UpdatableModsButton" Click="UpdatableModsButton_Click"/>
-        </StackPanel>
+            <Grid Margin="0 0 10 0" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar IsIndeterminate="{Binding IsChecking}" Grid.Column="0"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    x:Name="DataCheckUpdatedProgressBar"/>
+                <TextBlock Grid.Column="1" Margin="10 0 10 0" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=DataCheckUpdatedProgressBar, Path=IsIndeterminate}" Value="True">
+                                    <Setter Property="Text" Value="检查更新中..."/>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=DataCheckUpdatedProgressBar, Path=IsIndeterminate}" Value="False">
+                                    <Setter Property="Text" Value="Done!"/>
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+        </DockPanel>
 
         <ListView Margin="0 8 0 0" Grid.Row="1"
                   ItemsSource="{Binding ModItems}"
                   SelectionMode="Multiple"
+                  x:Name="DataListView"
                   materialDesign:DataGridAssist.CellPadding="13 8 8 8"
                   materialDesign:DataGridAssist.ColumnHeaderPadding="8">
             <ListView.ItemContainerStyle>
@@ -37,7 +65,7 @@
                             <Setter Value="Visible" Property="Visibility"></Setter>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Visibility, Mode=OneWay}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                            <Setter Property="Visibility" Value="Hidden"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -109,7 +137,43 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="更新" Margin="20 8 0 10" HorizontalAlignment="Left" 
-                Grid.Row="2" x:Name="UpdateButton" Click="UpdateButton_Click"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="更新" Margin="20 8 0 10" HorizontalAlignment="Left" 
+                 x:Name="UpdateButton" Click="UpdateButton_Click"/>
+            <Grid Margin="20 8 0 10">
+                <ProgressBar Minimum="0" MinWidth="300" Height="20" Maximum="{Binding UpdateItems.Count}" 
+                             Value="{Binding DownloadedCount}" x:Name="UpdateProgressBar">
+                    <ProgressBar.Style>
+                        <Style BasedOn="{StaticResource MaterialDesignLinearProgressBar}" TargetType="{x:Type ProgressBar}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IsIndeterminate" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UpdateCount, Converter={StaticResource IntToBoolean}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Setter Property="IsIndeterminate" Value="True"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding UpdateCount, Converter={StaticResource IntToBoolean}}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="IsIndeterminate" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Visibility="{Binding Path=Visibility, ElementName=UpdateProgressBar}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource ToPercentage}" StringFormat="{}{0:0}%">
+                            <Binding Path="Value" ElementName="UpdateProgressBar"/>
+                            <Binding Path="UpdateItems.Count"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+
+                <materialDesign:Snackbar Name="AlertSnackbar"
+                                         MessageQueue="{materialDesign:MessageQueue}"/>
+            </Grid>
+        </StackPanel>
+        
     </Grid>
 </controls:MetroWindow>
