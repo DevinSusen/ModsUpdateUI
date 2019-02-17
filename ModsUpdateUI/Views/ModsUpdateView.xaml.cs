@@ -27,7 +27,7 @@ namespace ModsUpdateUI.Views
 
         private void AllModsButton_Click(object sender, RoutedEventArgs e) => _model.ShowAllMods();
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             List<UpdateModItem> items = new List<UpdateModItem>();
             foreach(var it in DataListView.SelectedItems)
@@ -38,7 +38,7 @@ namespace ModsUpdateUI.Views
                 items.Add(item);
             }
             _model.UpdateItems = items;
-            _model.UpdateMod();
+            await _model.UpdateAsync();
         }
     }
 

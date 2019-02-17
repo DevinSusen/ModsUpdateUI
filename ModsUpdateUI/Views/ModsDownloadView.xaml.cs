@@ -28,13 +28,13 @@ namespace ModsUpdateUI.Views
 
         private void DownloadedItemButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.ShowDownloaded();
 
-        private void DownloadButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void DownloadButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             List<DownloadModItem> items = new List<DownloadModItem>();
             foreach(var i in DataListView.SelectedItems)
                 items.Add(i as DownloadModItem);
             _model.DownloadItems = items;
-            _model.DownloadMod();
+            await _model.DownloadAsync();
         }
     }
 }

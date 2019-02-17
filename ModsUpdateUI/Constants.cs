@@ -24,5 +24,11 @@
         public const string JsonType = @"application/json";
 
         #endregion
+
+        #region CheckUpdate
+
+        public const string UpdateApplication = @"AppUpdate.exe";
+
+        #endregion
     }
 }

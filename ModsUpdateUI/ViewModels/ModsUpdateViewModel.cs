@@ -127,7 +127,12 @@ namespace ModsUpdateUI.ViewModels
             }
         }
 
-        public void UpdateMod()
+        public async Task UpdateAsync()
+        {
+            await Task.Run(() => UpdateMod());
+        }
+
+        private void UpdateMod()
         {
             UpdatedCount = 0;
             UpdateCount = UpdateItems.Count;
@@ -136,6 +141,7 @@ namespace ModsUpdateUI.ViewModels
                 Client.DownloadFileCompleted += Client_DownloadFileCompleted;
                 Client.DownloadFileAsync(new Uri(_map[0].BrowserDownloadUrl),
                     ConfigurationManager.UpdateModsConfiguration.ModsDirectory + Path.DirectorySeparatorChar + _map[0].Name);
+                while (Client.IsBusy) ;
             }
             else Message = "未选择待更新项目";
         }
@@ -163,7 +169,17 @@ namespace ModsUpdateUI.ViewModels
 
         private void DecompressFile(string filePath)
         {
-            ZipFile.ExtractToDirectory(filePath, ConfigurationManager.UpdateModsConfiguration.ModsDirectory);
+            try
+            {
+                ZipFile.ExtractToDirectory(filePath, ConfigurationManager.UpdateModsConfiguration.ModsDirectory);
+            }
+            catch (Exception)
+            {
+                Message = "出现错误，请检查您的网络，并重新尝试。";
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+                return;
+            }     
             File.Delete(filePath);
         }
 

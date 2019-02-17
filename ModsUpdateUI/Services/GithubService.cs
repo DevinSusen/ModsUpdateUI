@@ -19,6 +19,8 @@ namespace ModsUpdateUI.Services
             Repos = repos;
         }
 
+        public async Task<Release> GetLastestReleaseAsync() => await _client.Repository.Release.GetLatest(Owner, Repos);
+
         public async Task<List<RemoteModInfo>> GetLastestModsAsync()
         {
             Release result;

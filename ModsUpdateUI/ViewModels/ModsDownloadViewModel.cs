@@ -10,6 +10,7 @@ using System;
 using ModsUpdateUI.Configurations;
 using MaterialDesignThemes.Wpf;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace ModsUpdateUI.ViewModels
 {
@@ -108,7 +109,12 @@ namespace ModsUpdateUI.ViewModels
             }
         }
 
-        public void DownloadMod()
+        public async Task DownloadAsync()
+        {
+            await Task.Run(() => DownloadMod());
+        }
+
+        private void DownloadMod()
         {
             DownloadedCount = 0;
             LeavingCount = DownloadItems.Count;
@@ -117,6 +123,7 @@ namespace ModsUpdateUI.ViewModels
                 Client.DownloadFileCompleted += Client_DownloadFileCompleted;
                 Client.DownloadFileAsync(new Uri(DownloadItems[0].ModInfo.BrowserDownloadUrl),
                     ConfigurationManager.DownloadModsConfiguration.DownloadDirectory + Path.DirectorySeparatorChar + DownloadItems[0].ModInfo.Name);
+                while(Client.IsBusy);
             }
             else Message = "未选择待下载项目";
         }
@@ -148,7 +155,18 @@ namespace ModsUpdateUI.ViewModels
 
         private void DecompressFile(string filePath, bool canDelete)
         {
-            ZipFile.ExtractToDirectory(filePath, ConfigurationManager.DownloadModsConfiguration.DownloadDirectory);
+            try
+            {
+                ZipFile.ExtractToDirectory(filePath, ConfigurationManager.DownloadModsConfiguration.DownloadDirectory);
+            }
+            catch (Exception)
+            {
+                Message = "出现错误，请检查您的网络，并重新尝试。";
+                if(File.Exists(filePath))
+                    File.Delete(filePath);
+                return;
+            }
+            
             if (canDelete)
                 File.Delete(filePath);
         }
