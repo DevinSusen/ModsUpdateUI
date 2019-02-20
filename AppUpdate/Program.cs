@@ -59,6 +59,7 @@ namespace AppUpdate
         private static void Client_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             Console.WriteLine("下载完成");
+            // TODO: CMD 
         }
 
         private static void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)

@@ -29,5 +29,13 @@ namespace ModsUpdateUI.Utils
                 return "";
             return steamPath + Constants.TaiWuModsFolder;
         }
+
+        public static string GetTheScrollOfTaiwuSaveFilesFolder()
+        {
+            string steamPath = GetSteamFolder();
+            if (steamPath == null)
+                return "";
+            return steamPath + Constants.TaiWuSaveFilesFolder;
+        }
     }
 }

@@ -7,8 +7,10 @@
         public const string SteamRegistryKey32 = @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam";
         #endregion
 
-        #region TaiWu Mods
+        #region TaiWu
         public const string TaiWuModsFolder = @"\steamapps\common\The Scroll Of Taiwu\Mods";
+
+        public const string TaiWuSaveFilesFolder = @"\steamapps\common\The Scroll Of Taiwu\The Scroll Of Taiwu Alpha V1.0_Data\SaveFiles";
         #endregion
 
         #region Configuration

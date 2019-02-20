@@ -3,6 +3,9 @@ using ModsUpdateUI.Configurations;
 using ModsUpdateUI.Services;
 using ModsUpdateUI.Views;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Mail;
+using System.Text;
 using System.Windows;
 
 namespace ModsUpdateUI
@@ -82,5 +85,51 @@ namespace ModsUpdateUI
             ModsUpdateView view = new ModsUpdateView();
             view.Show();
         }
+
+        //private void PackButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    string email = EmailTextBox.Text.Trim();
+        //    string password = EmailPasswordBox.Password;
+        //    if (!IsValidEmail(email))
+        //    {
+        //        //TODO: Message
+        //        return;
+        //    }
+        //    string path = CompressSaveFiles(Utils.Utilities.GetTheScrollOfTaiwuSaveFilesFolder());
+        //    MailMessage mail = new MailMessage(email, email);
+        //    mail.Subject = "存档";
+        //    mail.SubjectEncoding = Encoding.UTF8;
+        //    mail.Attachments.Add(new Attachment(path));
+
+        //    SmtpClient client = new SmtpClient();
+        //}
+
+        //private bool IsValidEmail(string email)
+        //{
+        //    try
+        //    {
+        //        var addr = new MailAddress(email);
+        //        return addr.Address == email;
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        //private string CompressSaveFiles(string filePath)
+        //{
+        //    Process proc = new Process();
+        //    string basePath = new DirectoryInfo("..").FullName + Path.DirectorySeparatorChar + @"tools";
+        //    string exePath = basePath + @"\7za.exe";
+        //    proc.StartInfo.FileName = exePath;
+        //    string compFile = basePath + @"\Save.7z";
+        //    proc.StartInfo.Arguments = "a " + compFile + " " + filePath;
+        //    proc.StartInfo.CreateNoWindow = false;
+        //    proc.Start();
+        //    proc.WaitForExit();
+        //    proc.Close();
+        //    return compFile;
+        //}
     }
 }
