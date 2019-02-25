@@ -28,4 +28,4 @@ ShellProgressBar (Optional)
 
 ## License
 
-MIT
+[MIT](License.txt)
