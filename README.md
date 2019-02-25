@@ -3,6 +3,7 @@
 ## 编译及依赖
 
 使用 Visual Studio 2017+ 打开ModsUpdateUI.sln, 编译
+C# 7.1+
 
 ### 依赖
 
