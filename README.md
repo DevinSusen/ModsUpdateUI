@@ -28,4 +28,4 @@ ShellProgressBar (Optional)
 
 ## License
 
-[MIT](LICENSE.txt)
+[MIT](https://github.com/DevinSusen/ModsUpdateUI/blob/master/LICENSE)
