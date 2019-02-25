@@ -3,9 +3,7 @@ using ModsUpdateUI.Configurations;
 using ModsUpdateUI.Services;
 using ModsUpdateUI.Views;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Mail;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace ModsUpdateUI
@@ -24,8 +22,26 @@ namespace ModsUpdateUI
 
         private async void CheckUpdateAsync()
         {
+            if (await CanUpdate())
+            {
+                var result = MessageBox.Show("有更新，是否下载并更新？", "检查更新", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Process.Start(Constants.UpdateApplication);
+                    Process.GetCurrentProcess().Kill();
+                }
+            }
+        }
+
+        private async Task<bool> CanUpdate()
+        {
             ApplicationService service = new ApplicationService();
-            if (await service.CheckUpdateAsync())
+            return await service.CheckUpdateAsync();
+        }
+
+        private async void CheckUpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(await CanUpdate())
             {
                 var result = MessageBox.Show("有更新，是否下载并更新？", "检查更新", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
@@ -39,8 +55,6 @@ namespace ModsUpdateUI
                 MessageBox.Show("当前已是最新版本", "检查更新");
             }
         }
-
-        private void CheckUpdateButton_Click(object sender, RoutedEventArgs e) => CheckUpdateAsync();
 
         private void WikiButton_Click(object sender, RoutedEventArgs e)
         {
@@ -63,11 +77,6 @@ namespace ModsUpdateUI
         {
             ModsUpdateConfigView view = new ModsUpdateConfigView();
             view.Show();
-        }
-
-        private void StoreFilesConfigButton_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void DownloadModsButton_Click(object sender, RoutedEventArgs e)

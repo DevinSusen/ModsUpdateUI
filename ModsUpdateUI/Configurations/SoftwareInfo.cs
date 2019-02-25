@@ -6,16 +6,16 @@ namespace ModsUpdateUI.Configurations
     public class SoftwareInfo
     {
         [JsonProperty("Author")]
-        public string Author { get; set; }
+        public string Author { get; set; } = "Devin Tung";
 
         [JsonProperty("HomePage")]
-        public Uri HomePage { get; set; }
+        public Uri HomePage { get; set; } = new Uri(@"https://github.com/DevinSusen/ModsUpdateUI");
 
         [JsonProperty("Version")]
-        public string Version { get; set; }
+        public string Version { get; set; } = "1.2";
 
         [JsonProperty("ReleaseTime")]
-        public DateTime ReleaseTime { get; set; }
+        public DateTime ReleaseTime { get; set; } = DateTime.Now;
 
         [JsonProperty("Dependencies")]
         public Dependency[] Dependencies { get; set; }

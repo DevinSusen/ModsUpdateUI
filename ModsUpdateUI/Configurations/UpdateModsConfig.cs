@@ -16,13 +16,13 @@ namespace ModsUpdateUI.Configurations
         /// 所有者
         /// </summary>
         [JsonProperty("Owner")]
-        public string Owner { get; set; }
+        public string Owner { get; set; } = "phorcys";
 
         /// <summary>
         /// 仓库名
         /// </summary>
         [JsonProperty("Repository")]
-        public string Repository { get; set; }
+        public string Repository { get; set; } = "Taiwu_mods";
 
         /// <summary>
         /// 要查看的文件类型
@@ -40,12 +40,14 @@ namespace ModsUpdateUI.Configurations
         /// 该配置是否已经合法
         /// </summary>
         /// <returns>如果true，则配置生效</returns>
+        [JsonIgnore]
         public bool IsOK { get => Directory.Exists(ModsDirectory); }
 
         /// <summary>
         /// 是否可以可以更新
         /// </summary>
         /// <returns>如果true，则可以开始更新</returns>
+        [JsonIgnore]
         public bool CanUpdate { get => !string.IsNullOrWhiteSpace(Owner) && !string.IsNullOrWhiteSpace(Repository); }
     }
 }

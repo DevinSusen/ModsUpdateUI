@@ -22,20 +22,8 @@ Newtonsoft.Json 12.0.1+
 
 Octokit 0.32.0+
 
-## 使用
+ShellProgressBar (Optional)
 
-### 查看Mod列表
-
-![查看Mod](doc/picture/downloadList.png)
-
-![配置项](doc/picture/downloadConfig.png)
-
-### 更新Mod
-
-![更新Mod](doc/picture/Update.png)
-
-![配置项](doc/picture/UpdateConfig.png)
-
-### License
+## License
 
 MIT

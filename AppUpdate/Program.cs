@@ -1,6 +1,7 @@
 ﻿using Octokit;
 using ShellProgressBar;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,24 +18,22 @@ namespace AppUpdate
 
             var options = new ProgressBarOptions
             {
-                ProgressBarOnBottom = true
+                ProgressBarOnBottom = true,
+                CollapseWhenFinished = true
             };
             using (_bar = new ProgressBar(size, "Downloading...", options))
             {
                 using (WebClient client = new WebClient())
                 {
                     client.DownloadProgressChanged += Client_DownloadProgressChanged;
-                    client.DownloadFileCompleted += Client_DownloadFileCompleted;
+                    client.DownloadFileAsync(uri, Path.GetTempPath() + Path.GetFileName(uri.AbsolutePath));
+                    while (client.IsBusy) ;
 
-                    await Task.Run(() => Download(client, uri));
+                    Console.WriteLine("下载完成");
+                    Process.Start("cmd.exe", "/k ..\\update.bat ModsUpdateUI.7z");
+                    Process.GetCurrentProcess().Kill();
                 }
             }
-        }
-
-        private static void Download(WebClient client, Uri uri)
-        {
-            client.DownloadFileAsync(uri, Path.GetFileName(uri.AbsolutePath));
-            while (client.IsBusy) ;
         }
 
         private static async Task<(Uri, int)> GetAppUriAsync()
@@ -54,12 +53,6 @@ namespace AppUpdate
             Uri u = new Uri(result.Assets[0].BrowserDownloadUrl);
             int size = result.Assets[0].Size;
             return (u, size);
-        }
-
-        private static void Client_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            Console.WriteLine("下载完成");
-            // TODO: CMD 
         }
 
         private static void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)

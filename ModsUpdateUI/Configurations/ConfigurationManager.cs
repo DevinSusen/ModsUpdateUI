@@ -46,7 +46,7 @@ namespace ModsUpdateUI.Configurations
         private static T InitConfiguration<T>(string fileName) where T : new()
         {
             T t = new T();
-            SaveConfiguration<T>(t, fileName);
+            SaveConfiguration(t, fileName);
             return t;
         }
         #endregion
