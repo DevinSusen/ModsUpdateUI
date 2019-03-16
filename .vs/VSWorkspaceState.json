@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\AppUpdate\\Properties"
+    "\\AppUpdate\\Properties",
+    "\\ModsUpdateUI\\ViewModels"
   ],
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }

@@ -24,11 +24,10 @@ namespace ModsUpdateUI
         {
             if (await CanUpdate())
             {
-                var result = MessageBox.Show("有更新，是否下载并更新？", "检查更新", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("有更新，是否下载？", "检查更新", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Process.Start(Constants.UpdateApplication);
-                    Process.GetCurrentProcess().Kill();
+                    Process.Start(@"https://github.com/DevinSusen/ModsUpdateUI/releases");
                 }
             }
         }
@@ -43,11 +42,10 @@ namespace ModsUpdateUI
         {
             if(await CanUpdate())
             {
-                var result = MessageBox.Show("有更新，是否下载并更新？", "检查更新", MessageBoxButton.YesNo);
+                var result = MessageBox.Show("有更新，是否下载？", "检查更新", MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Process.Start(Constants.UpdateApplication);
-                    Process.GetCurrentProcess().Kill();
+                    Process.Start(@"https://github.com/DevinSusen/ModsUpdateUI/releases");
                 }
             }
             else
@@ -58,7 +56,7 @@ namespace ModsUpdateUI
 
         private void WikiButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Process.Start(@"https://github.com/DevinSusen/ModsUpdateUI");
         }
 
         private void AboutButton_Click(object sender, RoutedEventArgs e)
