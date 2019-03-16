@@ -4,6 +4,8 @@
 
 使用 Visual Studio 2017+ 打开ModsUpdateUI.sln, 编译
 
+C# 7.1+
+
 ### 依赖
 
 framework版本
@@ -26,4 +28,4 @@ ShellProgressBar (Optional)
 
 ## License
 
-MIT
+[MIT](LICENSE)
