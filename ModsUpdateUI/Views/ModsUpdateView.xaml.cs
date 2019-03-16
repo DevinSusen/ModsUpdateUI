@@ -21,11 +21,11 @@ namespace ModsUpdateUI.Views
 
         private void ItemContainerGenerator_ItemsChanged(object sender, System.Windows.Controls.Primitives.ItemsChangedEventArgs e) => _model.CheckUpdateAsync();
 
-        private ModsUpdateViewModel _model;
+        private readonly ModsUpdateViewModel _model;
 
-        private void UpdatableModsButton_Click(object sender, RoutedEventArgs e) => _model.ShowUpdatableMods();
+        private void UpdatableModsButton_Click(object sender, RoutedEventArgs e) => _model.GetUpdatableMods();
 
-        private void AllModsButton_Click(object sender, RoutedEventArgs e) => _model.ShowAllMods();
+        private void AllModsButton_Click(object sender, RoutedEventArgs e) => _model.GetAllMods();
 
         private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {

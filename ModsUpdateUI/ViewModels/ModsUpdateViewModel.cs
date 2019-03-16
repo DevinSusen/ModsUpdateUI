@@ -16,19 +16,17 @@ namespace ModsUpdateUI.ViewModels
 {
     public class ModsUpdateViewModel : INotifyPropertyChanged
     {
-        private ISnackbarMessageQueue _snackbarMessQueue;
+        private readonly ISnackbarMessageQueue _snackbarMessQueue;
 
-        public void ShowUpdatableMods()
+        public void GetUpdatableMods()
         {
-            foreach (var i in ModItems)
-                i.Visibility = i.CanUpdate;
+            var result = from mod in ModItems
+                         where mod.CanUpdate
+                         select mod;
+            ModItems = new ObservableCollection<UpdateModItem>(result);
         }
 
-        public void ShowAllMods()
-        {
-            foreach (var i in ModItems)
-                i.Visibility = true;
-        }
+        public void GetAllMods() => ModItems = new ObservableCollection<UpdateModItem>(_allItems);
 
         private bool _isChecking = true;
         public bool IsChecking
@@ -188,6 +186,10 @@ namespace ModsUpdateUI.ViewModels
         public ModsUpdateViewModel(ISnackbarMessageQueue messageQueue)
         {
             _snackbarMessQueue = messageQueue ?? throw new ArgumentNullException(nameof(messageQueue));
+
+            _allItems = UpdateModItem.FromLocalModInfo(ServiceManager.LocalService.FromDirectory());
+            ModItems = new ObservableCollection<UpdateModItem>(_allItems);
+
             InitAsync();
         }
 
@@ -200,7 +202,18 @@ namespace ModsUpdateUI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<UpdateModItem> ModItems { get; } = UpdateModItem.FromLocalModInfo(ServiceManager.LocalService.FromDirectory());
+        private readonly List<UpdateModItem> _allItems;
+
+        private ObservableCollection<UpdateModItem> _modItems;
+        public ObservableCollection<UpdateModItem> ModItems
+        {
+            get => _modItems;
+            private set
+            {
+                _modItems = value;
+                OnPropertyChanged("ModItems");
+            }
+        }
 
         public void OnPropertyChanged([CallerMemberName]string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
@@ -241,16 +254,16 @@ namespace ModsUpdateUI.ViewModels
             }
         }
 
-        private bool _visibility;
-        public bool Visibility
-        {
-            get => _visibility;
-            set
-            {
-                _visibility = value;
-                OnPropertyChanged("Visibility");
-            }
-        }
+        //private bool _visibility;
+        //public bool Visibility
+        //{
+        //    get => _visibility;
+        //    set
+        //    {
+        //        _visibility = value;
+        //        OnPropertyChanged("Visibility");
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -259,17 +272,16 @@ namespace ModsUpdateUI.ViewModels
 
     public partial class UpdateModItem
     {
-        public static ObservableCollection<UpdateModItem> FromLocalModInfo(List<LocalModInfo> infos)
+        public static List<UpdateModItem> FromLocalModInfo(List<LocalModInfo> infos)
         {
-            ObservableCollection<UpdateModItem> items = new ObservableCollection<UpdateModItem>();
+            List<UpdateModItem> items = new List<UpdateModItem>();
             foreach (var i in infos)
             {
                 items.Add(new UpdateModItem
                 {
                     ModInfo = i,
                     IsChecked = false,
-                    CanUpdate = false,
-                    Visibility = true
+                    CanUpdate = false
                 });
             }
             return items;

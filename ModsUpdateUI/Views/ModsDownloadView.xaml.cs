@@ -20,13 +20,13 @@ namespace ModsUpdateUI.Views
 
         private void ItemContainerGenerator_ItemsChanged(object sender, System.Windows.Controls.Primitives.ItemsChangedEventArgs e) => DataLoadedProgressBar.IsIndeterminate = false;
 
-        private ModsDownloadViewModel _model;
+        private readonly ModsDownloadViewModel _model;
 
-        private void AllModsButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.ShowAll();
+        private void AllModsButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.GetAll();
 
-        private void UndownloadItemButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.ShowUndownloaded();
+        private void UndownloadItemButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.GetUndownloaded();
 
-        private void DownloadedItemButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.ShowDownloaded();
+        private void DownloadedItemButton_Click(object sender, System.Windows.RoutedEventArgs e) => _model.GetDownloaded();
 
         private async void DownloadButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {

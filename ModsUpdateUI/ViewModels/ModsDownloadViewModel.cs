@@ -16,6 +16,7 @@ namespace ModsUpdateUI.ViewModels
 {
     public class ModsDownloadViewModel : INotifyPropertyChanged
     {
+        private List<DownloadModItem> _allItems;
         private ObservableCollection<DownloadModItem> _modItems;
         public ObservableCollection<DownloadModItem> ModItems
         {
@@ -27,7 +28,7 @@ namespace ModsUpdateUI.ViewModels
             }
         }
 
-        private ISnackbarMessageQueue _snackbarMessQueue;
+        private readonly ISnackbarMessageQueue _snackbarMessQueue;
 
         private string _fileTypeFilter;
         public string FileTypeFilter
@@ -37,7 +38,7 @@ namespace ModsUpdateUI.ViewModels
             {
                 _fileTypeFilter = value;
                 OnPropertyChanged("FileTypeFilter");
-                ShowByFileType(value);
+                GetListByFileType(value);
             }
         }
 
@@ -175,36 +176,37 @@ namespace ModsUpdateUI.ViewModels
 
         #region Show
 
-        public void ShowAll()
+        public void GetAll()
         {
-            foreach (var i in ModItems)
-                i.Visibility = true;
+            ModItems = new ObservableCollection<DownloadModItem>(_allItems);
         }
 
-        public void ShowUndownloaded()
+        public void GetUndownloaded()
         {
-            foreach (var i in ModItems)
-                i.Visibility = !i.IsExists;
+            var result = from mod in _allItems
+                         where !mod.IsExists
+                         select mod;
+            ModItems = new ObservableCollection<DownloadModItem>(result);
         }
 
-        public void ShowDownloaded()
+        public void GetDownloaded()
         {
-            foreach (var i in ModItems)
-                i.Visibility = i.IsExists;
+            var result = from mod in _allItems
+                         where mod.IsExists
+                         select mod;
+            ModItems = new ObservableCollection<DownloadModItem>(result);
         }
 
-        public void ShowByFileType(string fileType)
+        public void GetListByFileType(string fileType)
         {
             if (fileType == "All")
-                ShowAll();
+                GetAll();
             else
             {
-                foreach(var i in ModItems)
-                {
-                    i.Visibility = false;
-                    if (i.ModInfo.ContentType == fileType)
-                        i.Visibility = true;
-                }
+                var result = from mod in _allItems
+                             where mod.ModInfo.ContentType == fileType
+                             select mod;
+                ModItems = new ObservableCollection<DownloadModItem>(result);
             }
         }
 
@@ -221,7 +223,9 @@ namespace ModsUpdateUI.ViewModels
         private async void InitAsync()
         {
             var result = await ServiceManager.GithubService.GetLastestModsAsync();
-            ModItems = DownloadModItem.FromList(result);
+            _allItems = DownloadModItem.FromRemoteList(result);
+            ModItems = new ObservableCollection<DownloadModItem>(_allItems);
+            
             FileTypes = new List<string>(result.Select(m => m.ContentType).Distinct())
             {
                 "All"
@@ -272,16 +276,16 @@ namespace ModsUpdateUI.ViewModels
             }
         }
 
-        private bool _visibility;
-        public bool Visibility
-        {
-            get => _visibility;
-            set
-            {
-                _visibility = value;
-                OnPropertyChanged("Visibility");
-            }
-        }
+        //private bool _visibility;
+        //public bool Visibility
+        //{
+        //    get => _visibility;
+        //    set
+        //    {
+        //        _visibility = value;
+        //        OnPropertyChanged("Visibility");
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -290,9 +294,9 @@ namespace ModsUpdateUI.ViewModels
 
     public partial class DownloadModItem
     {
-        public static ObservableCollection<DownloadModItem> FromList(List<RemoteModInfo> items)
+        public static List<DownloadModItem> FromRemoteList(List<RemoteModInfo> items)
         {
-            ObservableCollection<DownloadModItem> downloadMods = new ObservableCollection<DownloadModItem>();
+            List<DownloadModItem> downloadMods = new List<DownloadModItem>();
             LocalService ls = new LocalService(ConfigurationManager.UpdateModsConfiguration.ModsDirectory, ConfigurationManager.UpdateModsConfiguration.InfoFile);
             var lss = ls.FromDirectory();
             foreach(var i in items)
@@ -300,8 +304,7 @@ namespace ModsUpdateUI.ViewModels
                 DownloadModItem item = new DownloadModItem
                 {
                     ModInfo = i,
-                    IsChecked = false,
-                    Visibility = true
+                    IsChecked = false
                 };
                 downloadMods.Add(item);
                 string fileName = Path.GetFileNameWithoutExtension(i.Name);
